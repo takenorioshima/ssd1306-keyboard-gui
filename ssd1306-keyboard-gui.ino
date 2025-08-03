@@ -29,12 +29,12 @@ void drawKeyboard(const int* activeNotes, int length) {
   // Draw C D E F G A B.
   const int whiteNotes[] = { 0, 2, 4, 5, 7, 9, 11 };
   for (int i = 0; i < 7; i++) {
-    int notePitchClass = whiteNotes[i];
+    int noteKey = whiteNotes[i];
     int x = baseX + i * whiteKeySpacing;
 
     bool isActive = false;
     for (int j = 0; j < length; j++) {
-      if ((activeNotes[j] % 12) == notePitchClass) {
+      if ((activeNotes[j] % 12) == noteKey) {
         isActive = true;
         break;
       }
@@ -44,17 +44,17 @@ void drawKeyboard(const int* activeNotes, int length) {
   }
 
   // Draw C#, D#, F#, G#, A#.
-  const int blackNoteOffsets[] = { 1, 3, 6, 8, 10 };
+  const int blackNotes[] = { 1, 3, 6, 8, 10 };
   const int blackKeyXOffsets[] = { 1, 2, 4, 5, 6 };
 
   for (int i = 0; i < 5; i++) {
-    int notePitchClass = blackNoteOffsets[i];
+    int noteKey = blackNotes[i];
     int x = baseX + blackKeyXOffsets[i] * whiteKeySpacing - 8;
     int y = baseY - 14;
 
     bool isActive = false;
     for (int j = 0; j < length; j++) {
-      if ((activeNotes[j] % 12) == notePitchClass) {
+      if ((activeNotes[j] % 12) == noteKey) {
         isActive = true;
         break;
       }
@@ -111,6 +111,12 @@ void loop() {
   // Sample: D, E, A
   int activeNotes3[] = { 62, 64, 69 };
   drawKeyboard(activeNotes3, sizeof(activeNotes3) / sizeof(activeNotes3[0]));
+
+  delay(1000);
+
+  // Sample: F, G, C
+  int activeNotes4[] = { 65, 67, 72 };
+  drawKeyboard(activeNotes4, sizeof(activeNotes4) / sizeof(activeNotes4[0]));
 
   delay(1000);
 }
