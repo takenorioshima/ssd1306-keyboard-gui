@@ -9,9 +9,14 @@ const char* noteNames[12] = {
 };
 
 // Draw key.
-void drawKey(int x, int y, int radius, bool isActive) {
+void drawKey(int x, int y, int radius, bool isActive, bool isRoot) {
   if (isActive) {
     display.fillCircle(x, y, radius);
+    if (isRoot) {
+      display.setColor(BLACK);
+      display.fillCircle(x, y, radius / 2);
+      display.setColor(WHITE);
+    }
   } else {
     display.drawCircle(x, y, radius);
   }
@@ -26,6 +31,8 @@ void drawKeyboard(const int* activeNotes, int length) {
   const int radius = 8;
   const int whiteKeySpacing = 16;
 
+  int rootKey = (length > 0) ? (activeNotes[0] % 12) : -1;
+
   // Draw C D E F G A B.
   const int whiteNotes[] = { 0, 2, 4, 5, 7, 9, 11 };
   for (int i = 0; i < 7; i++) {
@@ -33,14 +40,19 @@ void drawKeyboard(const int* activeNotes, int length) {
     int x = baseX + i * whiteKeySpacing;
 
     bool isActive = false;
+    bool isRoot = false;
+
     for (int j = 0; j < length; j++) {
       if ((activeNotes[j] % 12) == noteKey) {
         isActive = true;
+        if (noteKey == rootKey) {
+          isRoot = true;
+        }
         break;
       }
     }
 
-    drawKey(x, baseY, radius, isActive);
+    drawKey(x, baseY, radius, isActive, isRoot);
   }
 
   // Draw C#, D#, F#, G#, A#.
@@ -53,14 +65,19 @@ void drawKeyboard(const int* activeNotes, int length) {
     int y = baseY - 14;
 
     bool isActive = false;
+    bool isRoot = false;
+    
     for (int j = 0; j < length; j++) {
       if ((activeNotes[j] % 12) == noteKey) {
         isActive = true;
+        if (noteKey == rootKey) {
+          isRoot = true;
+        }
         break;
       }
     }
 
-    drawKey(x, y, radius, isActive);
+    drawKey(x, y, radius, isActive, isRoot);
   }
 
   // Sample: Header text.
